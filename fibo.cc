@@ -6,7 +6,7 @@ Fibo::Fibo(){
 }
 
 void normalize(boost::dynamic_bitset<>  &fibonumber){
-//TODO
+//TODO throws errors :(
 }
 
 void prepare_fibonacci_numbers(unsigned long long n){
@@ -49,4 +49,39 @@ Fibo::Fibo(const std::string &str){
 		}
 	}
 	normalize(number);
+}
+
+Fibo::Fibo(const Fibo& anotherFibo){
+	//TODO
+	number.push_back(0);
+}
+
+Fibo& Fibo::operator= (const Fibo& second){
+	//TODO
+	return *this;
+}
+
+Fibo& Fibo::operator+= (const Fibo& second){
+	//TODO
+	return *this;
+}
+
+Fibo& Fibo::operator&= (const Fibo& second){
+	//TODO
+	return *this;
+}
+
+Fibo& Fibo::operator|= (const Fibo& second){
+	//TODO
+	return *this;
+}
+
+Fibo& Fibo::operator^= (const Fibo& second){
+	//TODO
+	return *this;
+}
+
+Fibo& Fibo::operator<<= (const unsigned int number){
+	//TODO
+	return *this;
 }
