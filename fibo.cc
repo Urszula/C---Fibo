@@ -5,8 +5,41 @@ Fibo::Fibo(){
 	number.push_back(false);
 }
 
-void normalize(boost::dynamic_bitset<>  &fibonumber){
-//TODO throws errors :(
+void normalize(boost::dynamic_bitset<> &fibonumber){
+    boost::dynamic_bitset<> B = fibonumber;
+    /* 
+     * wynikiem dzialania ponizszego kodu
+     * dla B.size()==0 jest 0 w postaci unormowanej
+     * w przeciwnym razie jest to B w postaci unormowanej
+     */
+    if(B.any()) {
+        B.push_back(false);
+        B.push_back(false);
+        B.push_back(false);
+        B <<= 3;        
+        int l = B.size();
+        while(l>1) {
+            int k = 0;
+            int i = 0;
+            while(i+2 < l) {
+                if(!B.test(i) && B.test(i+1) && B.test(i+2)) {
+                    B.set(i);
+                    B.reset(i + 1);
+                    B.reset(i + 2);
+                    k = i;
+                    i++;
+                }
+                i++;
+            }
+            l = k + 1;
+        }
+        size_t pierwsza_jedynka = B.find_first();
+        B >>= pierwsza_jedynka;
+        B.resize(B.size() - pierwsza_jedynka);
+    } else {
+        B.resize(1);
+    }
+    fibonumber = B;
 }
 
 void prepare_fibonacci_numbers(unsigned long long n){
