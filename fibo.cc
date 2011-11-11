@@ -107,7 +107,78 @@ Fibo& Fibo::operator= (const Fibo& second){
 }
 
 Fibo& Fibo::operator+= (const Fibo& second){
-	//TODO
+	bool carry_bit = false;
+	int first_it = number.size() - 1;
+	int second_it = second.number.size() - 1;
+	while (first_it >=0 && second_it >= 0){
+		if (number.test(first_it)){
+			if (second.number.test(second_it)){
+				if (!carry_bit){
+					carry_bit = true;
+					number.set(first_it, false);
+				}
+			}
+			else{
+				if (carry_bit)
+					number.set(first_it, false);
+			}
+		} else {
+			if (second.number.test(second_it)){
+				if (!carry_bit){
+					number.set(first_it, true);
+				}
+			}
+			else {
+				if (carry_bit){
+					carry_bit = false;
+					number.set(first_it, true);
+				}
+			}
+		}
+		--first_it;
+		--second_it;
+	}
+	
+	if (first_it>=0){
+		while (first_it >= 0){
+			if (number.test(first_it)){
+				if (carry_bit){
+					number.set(first_it, false);
+				}
+			} else {
+				if (carry_bit){
+					number.set(first_it, true);
+					carry_bit = false;
+				}
+			}
+			--first_it;
+		}
+		if (carry_bit){
+			//TODO WSTAWIENIE 1 NA POCZATEK LICZBY
+		}
+	}
+
+	if (second_it>=0){
+		while (second_it >=0){
+			if (second.number.test(second_it)){
+				if (carry_bit){
+					//Wstawienie na poczatek 0
+					carry_bit = false;
+				}
+				else{
+					//Wstawienie na poczatek 1
+				}
+			}else {
+				if (carry_bit){
+					//Wstawienie na poczatek 1
+				} else {
+					//wstawienie na poczatek 0
+				}
+			}
+		}
+		if (carry_bit){} //TODO WSTAWIENIE 1 NA POCZATEK LICZBY
+	}
+
 	return *this;
 }
 
