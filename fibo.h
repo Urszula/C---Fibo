@@ -13,6 +13,7 @@ class Fibo {
 		Fibo(unsigned long long n);
 		explicit Fibo(const std::string  &str);
 		Fibo(const Fibo& anotherFibo);
+		size_t length();
 		Fibo& operator= (Fibo const&);
 		Fibo& operator+= (Fibo const&);
 		Fibo& operator&= (Fibo const&);

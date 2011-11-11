@@ -95,6 +95,9 @@ Fibo::~Fibo(){
 //I'm not sure if destructor is needed - default destructor should be ok - compiler automatically should delete object number
 }
 
+size_t Fibo::length(){
+	return number.size();
+}
 
 Fibo& Fibo::operator= (const Fibo& second){
 number.clear();
