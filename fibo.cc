@@ -19,8 +19,7 @@ void normalize(boost::dynamic_bitset<> &fibonumber){
     if(B.any()) {
         B.push_back(false);
         B.push_back(false);
-        B.push_back(false);
-        B <<= 3;        
+        B <<= 2;        
         int l = B.size();
         while(l>1) {
             int k = 0;
@@ -76,22 +75,20 @@ Fibo::Fibo(unsigned long long n){
 }
 
 Fibo::Fibo(const std::string &str){
-	for (size_t i=0; i< str.size();i++){
-		if (str[i] == '1'){
-			number.push_back(true);
-		} else if (str[i] == '0') {
-			number.push_back(false);
-		} else {
-			std::cerr << "Not fibonacci number";
-			//TODO WYWALENIE
-		}
-	}
+    if(str.find_first_not_of("01")!=std::string::npos) {
+        std::cerr << "Not a Fibonacci number";
+        //TODO WYWALENIE
+    } else { 
+        std::string rstr;
+        for(size_t i = str.size(); i>0;)
+            rstr.push_back(str[--i]);
+        number = boost::dynamic_bitset<>(rstr);   
+    }
 	normalize(number);
 }
 
 Fibo::Fibo(const Fibo& anotherFibo){
-	//TODO
-	number.push_back(0);
+	number = anotherFibo.number;
 }
 
 Fibo::~Fibo(){
@@ -104,6 +101,12 @@ Fibo& Fibo::operator= (const Fibo& second){
 	//From boost: This bitset becomes copy of second bitset
 	number = second.number;
 	return *this;
+}
+
+void insert_at_begin(boost::dynamic_bitset<> &bitset, bool b) {
+    bitset.push_back(false);
+    bitset <<= 1;
+    bitset.set(0, b);
 }
 
 Fibo& Fibo::operator+= (const Fibo& second){
@@ -154,7 +157,7 @@ Fibo& Fibo::operator+= (const Fibo& second){
 			--first_it;
 		}
 		if (carry_bit){
-			//TODO WSTAWIENIE 1 NA POCZATEK LICZBY
+			insert_at_begin(number, true);
 		}
 	}
 
