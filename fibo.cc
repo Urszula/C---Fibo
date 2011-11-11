@@ -165,43 +165,44 @@ Fibo& Fibo::operator+= (const Fibo& second){
 		while (second_it >=0){
 			if (second.number.test(second_it)){
 				if (carry_bit){
-					//Wstawienie na poczatek 0
+					insert_at_begin(number, false);
 					carry_bit = false;
 				}
 				else{
-					//Wstawienie na poczatek 1
+					insert_at_begin(number, true);
 				}
 			}else {
 				if (carry_bit){
-					//Wstawienie na poczatek 1
+					insert_at_begin(number, true);
 				} else {
-					//wstawienie na poczatek 0
+					insert_at_begin(number, false);
 				}
 			}
 		}
-		if (carry_bit){} //TODO WSTAWIENIE 1 NA POCZATEK LICZBY
+		if (carry_bit)
+			insert_at_begin(number, true);
 	}
-
+	normalize(number);
 	return *this;
 }
 
 Fibo& Fibo::operator&= (const Fibo& second){
-	//TODO
+	number &= second.number;
 	return *this;
 }
 
 Fibo& Fibo::operator|= (const Fibo& second){
-	//TODO
+	number |= second.number;
 	return *this;
 }
 
 Fibo& Fibo::operator^= (const Fibo& second){
-	//TODO
+	number ^= second.number;
 	return *this;
 }
 
-Fibo& Fibo::operator<<= (const unsigned int number){
-	//TODO
+Fibo& Fibo::operator<<= (const unsigned int shift_number){
+	number <<= shift_number;
 	return *this;
 }
 
@@ -211,3 +212,33 @@ Fibo& operator+ (const Fibo& first, const Fibo& second){
 	ret += second;
 	return ret;
 }
+
+Fibo& operator& (const Fibo& first, const Fibo& second){
+	Fibo ret;
+	ret &= first.number;
+	ret &= second.number;
+	return ret;
+}
+
+Fibo& operator| (const Fibo& first, const Fibo& second){
+	Fibo ret;
+	ret |= first.number;
+	ret |= second.number;
+	return ret;
+}
+
+Fibo& operator^ (const Fibo& first, const Fibo& second){
+	Fibo ret;
+	ret.number = first.number ^ second.number;
+	return ret;
+}
+
+Fibo& operator<< (const Fibo& first, const unsigned int shift_number){
+	Fibo ret;
+	ret.number = first.number << shift_number;
+}
+
+bool operator== (const Fibo& first, const Fibo& second){
+	return first.number == second.number;
+}
+
