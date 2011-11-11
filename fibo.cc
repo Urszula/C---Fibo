@@ -185,23 +185,41 @@ Fibo& Fibo::operator+= (const Fibo& second){
 	return *this;
 }
 
+void set_size_to_greater(boost::dynamic_bitset<> &A, boost::dynamic_bitset<> &B){
+    size_t m = A.size();
+	size_t n = B.size();
+	if(m<n) m = n;
+	A.resize(m);
+	B.resize(m);
+}
+
 Fibo& Fibo::operator&= (const Fibo& second){
-	//TODO
+    boost::dynamic_bitset<> second_number = second.number;
+    set_size_to_greater(number, second_number);
+	number &= second_number;
+	normalize(number);
 	return *this;
 }
 
 Fibo& Fibo::operator|= (const Fibo& second){
-	//TODO
+    boost::dynamic_bitset<> second_number = second.number;
+    set_size_to_greater(number, second_number);
+	number |= second_number;
+	normalize(number);
 	return *this;
 }
 
 Fibo& Fibo::operator^= (const Fibo& second){
-	//TODO
+    boost::dynamic_bitset<> second_number = second.number;
+    set_size_to_greater(number, second_number);
+	number ^= second_number;
+	normalize(number);
 	return *this;
 }
 
-Fibo& Fibo::operator<<= (const unsigned int number){
-	//TODO
+Fibo& Fibo::operator<<= (const unsigned int n){
+	number <<= n;
+	normalize(number);
 	return *this;
 }
 
@@ -211,3 +229,22 @@ Fibo& operator+ (const Fibo& first, const Fibo& second){
 	ret += second;
 	return ret;
 }
+
+Fibo& operator& (const Fibo& first, const Fibo& second){
+    Fibo ret(first);
+    ret &= second;
+    return ret;   
+}
+
+Fibo& operator| (const Fibo& first, const Fibo& second){
+    Fibo ret(first);
+    ret |= second;
+    return ret;   
+}
+
+Fibo& operator^ (const Fibo& first, const Fibo& second){
+    Fibo ret(first);
+    ret ^= second;
+    return ret;   
+}
+
