@@ -94,8 +94,15 @@ Fibo::Fibo(const Fibo& anotherFibo){
 	number.push_back(0);
 }
 
+Fibo::~Fibo(){
+	//I'm not sure if destructor is needed - default destructor should be ok - compiler automatically should delete object number
+}
+
+
 Fibo& Fibo::operator= (const Fibo& second){
-	//TODO
+	number.clear();
+	//From boost: This bitset becomes copy of second bitset
+	number = second.number;
 	return *this;
 }
 
@@ -122,4 +129,11 @@ Fibo& Fibo::operator^= (const Fibo& second){
 Fibo& Fibo::operator<<= (const unsigned int number){
 	//TODO
 	return *this;
+}
+
+Fibo& operator+ (const Fibo& first, const Fibo& second){
+	Fibo ret;
+	ret += first;
+	ret += second;
+	return ret;
 }

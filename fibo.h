@@ -9,6 +9,7 @@ class Fibo {
 		static std::vector<unsigned long long> fibonacci_numbers;
 	public:
 		Fibo();
+		~Fibo();
 		Fibo(unsigned long long n);
 		explicit Fibo(const std::string  &str);
 		Fibo(const Fibo& anotherFibo);
