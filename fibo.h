@@ -6,8 +6,8 @@ class Fibo {
 	
 	private:
 		boost::dynamic_bitset<> number;
-	public:
 		static std::vector<unsigned long long> fibonacci_numbers;
+	public:
 		Fibo();
 		Fibo(unsigned long long n);
 		explicit Fibo(const std::string  &str);

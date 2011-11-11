@@ -1,9 +1,13 @@
 #include <iostream>
 #include "fibo.h"
 
+std::vector<unsigned long long> Fibo::fibonacci_numbers;
+
 Fibo::Fibo(){
 	number.push_back(false);
 }
+
+
 
 void normalize(boost::dynamic_bitset<> &fibonumber){
     boost::dynamic_bitset<> B = fibonumber;
@@ -42,21 +46,22 @@ void normalize(boost::dynamic_bitset<> &fibonumber){
     fibonumber = B;
 }
 
-void prepare_fibonacci_numbers(unsigned long long n){
-	if (Fibo::fibonacci_numbers.empty()){
-		Fibo::fibonacci_numbers.push_back(1);
-		Fibo::fibonacci_numbers.push_back(2);
+void prepare_fibonacci_numbers(unsigned long long n, std::vector<unsigned long long>& fibonacci_numbers){
+	
+	if (fibonacci_numbers.empty()){
+		fibonacci_numbers.push_back(1);
+		fibonacci_numbers.push_back(2);
 	}
 	
-	while (Fibo::fibonacci_numbers.back() < n)
-		Fibo::fibonacci_numbers.push_back(
-				Fibo::fibonacci_numbers.back() +
-		                Fibo::fibonacci_numbers[Fibo::fibonacci_numbers.size() - 2]);
+	while (fibonacci_numbers.back() < n)
+		fibonacci_numbers.push_back(
+				fibonacci_numbers.back() +
+		                fibonacci_numbers[fibonacci_numbers.size() - 2]);
 	
 }
 
 Fibo::Fibo(unsigned long long n){
-	prepare_fibonacci_numbers(n);
+	prepare_fibonacci_numbers(n, Fibo::fibonacci_numbers);
 	std::vector<unsigned long long>::reverse_iterator it = Fibo::fibonacci_numbers.rbegin();
 	while (n>0 && it != Fibo::fibonacci_numbers.rend()){
 		if (*it <= n ){
