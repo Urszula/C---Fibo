@@ -11,37 +11,33 @@ number.push_back(false);
 
 void normalize(boost::dynamic_bitset<> &fibonumber){
     boost::dynamic_bitset<> B = fibonumber;
-    /*
-* wynikiem dzialania ponizszego kodu
-* dla B.size()==0 jest 0 w postaci unormowanej
-* w przeciwnym razie jest to B w postaci unormowanej
-*/
     if(B.any()) {
         B.push_back(false);
         B.push_back(false);
-        B <<= 2;
-        int l = B.size();
-        while(l>1) {
-            int k = 0;
-            int i = 0;
-            while(i+2 < l) {
-                if(!B.test(i) && B.test(i+1) && B.test(i+2)) {
+        int l = -1;
+        while(l + 2<B.size()) {
+            int k = B.size() - 1;
+            int i = B.size() - 1;
+            while(i-2 > l) {
+                if(!B.test(i) && B.test(i-1) && B.test(i-2)) {
                     B.set(i);
-                    B.reset(i + 1);
-                    B.reset(i + 2);
+                    B.reset(i - 1);
+                    B.reset(i - 2);
                     k = i;
-                    i++;
+                    i--;
                 }
-                i++;
+                i--;
             }
-            l = k + 1;
+            l = k - 1;
         }
-        size_t pierwsza_jedynka = B.find_first();
-        B >>= pierwsza_jedynka;
-        B.resize(B.size() - pierwsza_jedynka);
+        size_t pierwsza_jedynka = B.size() - 1;
+        while(!B.test(pierwsza_jedynka))
+            pierwsza_jedynka--;
+        B.resize(pierwsza_jedynka + 1);
     } else {
         B.resize(1);
     }
+
     fibonumber = B;
 }
 
@@ -97,12 +93,8 @@ Fibo::Fibo(const std::string &str){
         std::cerr << "Not a Fibonacci number";
         //TODO WYWALENIE
     } else {
-        std::string rstr;
-        for(size_t i = str.size(); i>0;)
-            rstr.push_back(str[--i]);
-        number = boost::dynamic_bitset<>(rstr);
+        number = boost::dynamic_bitset<>(str);
     }
-    reverse(number);
     normalize(number);
 }
 
