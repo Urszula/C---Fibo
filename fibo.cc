@@ -59,6 +59,23 @@ void prepare_fibonacci_numbers(unsigned long long n, std::vector<unsigned long l
 	
 	}
 
+void reverse(boost::dynamic_bitset<>& number){
+	int start = 0;
+	int end = number.size() - 1;
+	bool first,second;
+	while (start < end){
+		first = number.test(start);
+		second = number.test(end);
+
+		if (first != second){
+			number.set(start, second);
+			number.set(end, first);
+		}
+		++start;
+		--end;
+	}
+}
+
 Fibo::Fibo(unsigned long long n){
 	prepare_fibonacci_numbers(n, Fibo::fibonacci_numbers);
 	std::vector<unsigned long long>::reverse_iterator it = Fibo::fibonacci_numbers.rbegin();
@@ -71,6 +88,7 @@ Fibo::Fibo(unsigned long long n){
 		}
 		++it;
 	}
+	reverse(number);
 	normalize(number);
 }
 
@@ -84,7 +102,8 @@ Fibo::Fibo(const std::string &str){
             rstr.push_back(str[--i]);
         number = boost::dynamic_bitset<>(rstr);
     }
-normalize(number);
+    reverse(number);
+    normalize(number);
 }
 
 Fibo::Fibo(const Fibo& anotherFibo){
@@ -114,9 +133,9 @@ void insert_at_begin(boost::dynamic_bitset<> &bitset, bool b) {
 
 Fibo& Fibo::operator+= (const Fibo& second){
 	bool carry_bit = false;
-	int first_it = number.size() - 1;
-	int second_it = second.number.size() - 1;
-	while (first_it >=0 && second_it >= 0){
+	int first_it = 0, second_it = 0;
+	int maks = number.size() > second.number.size() ? second.number.size() : number.size() ;
+	while (first_it <maks && second_it < maks){
 		if (number.test(first_it)){
 			if (second.number.test(second_it)){
 				if (!carry_bit){
@@ -141,12 +160,12 @@ Fibo& Fibo::operator+= (const Fibo& second){
 				}
 			}
 		}
-		--first_it;
-		--second_it;
+		++first_it;
+		++second_it;
 	}
 
-	if (first_it>=0){
-		while (first_it >= 0){
+	if (number.size() != maks){
+		while (first_it < number.size()){
 			if (number.test(first_it)){
 				if (carry_bit){
 					number.set(first_it, false);
@@ -157,33 +176,34 @@ Fibo& Fibo::operator+= (const Fibo& second){
 					carry_bit = false;
 				}
 			}
-			--first_it;
+			++first_it;
 		}
 		if (carry_bit){
-			insert_at_begin(number, true);
+			number.push_back(true);
 		}
+
 	}
 
-	if (second_it>=0){
-		while (second_it >=0){
+	if (second.number.size() != maks){
+		while (second_it < second.number.size()){
 			if (second.number.test(second_it)){
 				if (carry_bit){
-					insert_at_begin(number, false);
+					number.push_back(false);
 					carry_bit = false;
 				}
 				else{
-					insert_at_begin(number, true);
+					number.push_back(true);
 				}
 			}else {
 				if (carry_bit){
-					insert_at_begin(number, true);
+					number.push_back(true);
 				} else {
-					insert_at_begin(number, false);
+					number.push_back(false);
 				}
 			}
 		}
 		if (carry_bit)
-			insert_at_begin(number, true);
+			number.push_back(true);
 	}
 	normalize(number);
 	return *this;
@@ -222,7 +242,7 @@ return *this;
 }
 
 Fibo& Fibo::operator<<= (const unsigned int n){
-number <<= n;
+number >>= n;
 normalize(number);
 return *this;
 }
