@@ -33,3 +33,6 @@ bool operator<= (Fibo const&, Fibo const&);
 bool operator!= (Fibo const&, Fibo const&);
 bool operator> (Fibo const&, Fibo const&);
 bool operator>= (Fibo const&, Fibo const&);
+
+Fibo const& Zero();
+Fibo const& One();

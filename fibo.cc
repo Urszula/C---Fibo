@@ -264,4 +264,12 @@ Fibo& operator^ (const Fibo& first, const Fibo& second){
     return ret;
 }
 
+Fibo const& Zero(){
+	static Fibo *fibzero = new Fibo(0);
+	return *fibzero;
+}
 
+Fibo const& One(){
+	static Fibo *fibone = new Fibo(1);
+	return *fibone;
+}
